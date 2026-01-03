@@ -23,8 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         // Aksi Tombol 2: Placeholder (Karena kita belum buat fitur YOLO-nya)
         btnDetection.setOnClickListener {
-            Toast.makeText(this, "Fitur Deteksi Jenis Sampah akan segera hadir!", Toast.LENGTH_SHORT).show()
-            // Nanti di sini kita arahkan ke Activity YOLO jika sudah dibuat
+            startActivity(Intent(this, DetectionActivity::class.java))
         }
     }
 }
