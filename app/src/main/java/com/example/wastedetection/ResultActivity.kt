@@ -86,7 +86,7 @@ class ResultActivity : AppCompatActivity() {
                 val volumeInMl = (detectedPercentage.toDouble() / 100.0) * containerVolumeLiter * 1000.0
 
                 // Tampilkan Hasil Akhir
-                tvFinalVolume.text = "${volumeInMl.toInt()} mL"
+                tvFinalVolume.text = "${volumeInMl.toInt()} CM"
                 layoutFinalResult.visibility = View.VISIBLE // Munculkan kotak hasil
 
                 // Scroll ke bawah agar terlihat (Opsional)

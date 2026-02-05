@@ -106,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:backgroundTint="#00695C"
-            android:text="Hitung Total Volume (mL)"
+            android:text="Hitung Total Volume (cm)"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -131,7 +131,7 @@
                 android:id="@+id/tvFinalVolume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 mL"
+                android:text="0 CM"
                 android:textColor="#004D40"
                 android:textSize="36sp"
                 android:textStyle="bold" />

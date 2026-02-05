@@ -22,8 +22,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Aksi Tombol 2: Placeholder (Karena kita belum buat fitur YOLO-nya)
-        btnDetection.setOnClickListener {
-            startActivity(Intent(this, DetectionActivity::class.java))
-        }
+//        btnDetection.setOnClickListener {
+//            startActivity(Intent(this, DetectionActivity::class.java))
+//        }
     }
 }
