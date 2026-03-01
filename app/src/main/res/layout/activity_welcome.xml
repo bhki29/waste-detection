@@ -38,8 +38,8 @@
     <ImageView
         android:id="@+id/logoMenu2"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:src="@drawable/page1"
+        android:layout_height="250dp"
+        android:src="@drawable/page2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +62,7 @@
     <ImageView
         android:id="@+id/logoMenu3"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:src="@drawable/page3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="parent"

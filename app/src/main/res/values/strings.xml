@@ -2,8 +2,8 @@
     <string name="app_name">WasteDetection</string>
 
     <string name="title_menu_1">Selamat Datang DI GreenScan AI</string>
-    <string name="title_menu_2">Inovasi Belajar untuk Generasi Cerdas dan Kreatif.</string>
-    <string name="title_menu_3">Belajar Interaktif, Masa Depan Lebih Produktif.</string>
+    <string name="title_menu_2">Estimasi Volume Sampah Berbasis CNN</string>
+    <string name="title_menu_3">Deteksi Jenis Sampah dengan YOLO</string>
 
     <string name="mulai">Mulai</string>
     <string name="selanjutnya">Mulai</string>
