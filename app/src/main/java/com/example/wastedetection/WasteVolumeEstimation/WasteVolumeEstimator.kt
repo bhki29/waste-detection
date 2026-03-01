@@ -1,4 +1,4 @@
-package com.example.wastedetection
+package com.example.wastedetection.WasteVolumeEstimation
 
 import android.content.Context
 import android.graphics.Bitmap

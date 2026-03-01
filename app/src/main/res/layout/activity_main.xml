@@ -5,71 +5,239 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#F0FEE8"
     android:padding="24dp">
 
     <ImageView
-        android:id="@+id/imgIllustration"
-        android:layout_width="0dp"
-        android:layout_height="250dp"
-        android:src="@drawable/contoh"
-        android:layout_marginTop="40dp"
+        android:id="@+id/ivLogo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/logo"
+        android:scaleType="fitCenter"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btnVolumeEstimation"
+    <LinearLayout
+        android:id="@+id/llHeader"
         android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:text="Prediksi Volume Sampah"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#00695C"
-        app:cornerRadius="30dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@id/imgIllustration"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/btnWasteDetection"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:text="Deteksi Jenis Sampah"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#00695C"
-        app:cornerRadius="30dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/btnVolumeEstimation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="From"
-        android:textColor="#888888"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@id/tvName"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp"
+        app:layout_constraintTop_toTopOf="@id/ivLogo"
+        app:layout_constraintBottom_toBottomOf="@id/ivLogo"
+        app:layout_constraintStart_toEndOf="@id/ivLogo"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="4dp"/>
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GreenScan AI"
+            android:textColor="#2D7A41"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/abhaya_libre_regular" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deteksi Volume dan Jenis Sampah"
+            android:textColor="#2D7A41"
+            android:textSize="14sp"
+            android:fontFamily="@font/abhaya_libre_regular" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:cardBackgroundColor="#6A9D4E"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toBottomOf="@id/llHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/faq" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="@string/faq"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/abhaya_libre_regular" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/text_card"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:lineSpacingExtra="4dp"
+                android:justificationMode="inter_word"
+                android:fontFamily="@font/abhaya_libre_regular" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btnVolumeEstimation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:text="@string/btn_volume_estimation"
+                    android:textColor="#6A9D4E"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="#FFFFFF"
+                    android:textAllCaps="false"
+                    app:cornerRadius="20dp"
+                    android:fontFamily="@font/abhaya_libre_regular"
+                    android:paddingVertical="12dp"/>
+
+                <Button
+                    android:id="@+id/btnWasteDetection"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/btn_waste_detection"
+                    android:textColor="#6A9D4E"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="#FFFFFF"
+                    android:textAllCaps="false"
+                    app:cornerRadius="20dp"
+                    android:fontFamily="@font/abhaya_libre_regular"
+                    android:paddingVertical="12dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvCaraKerjaTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aji Ahmad Baehaki"
+        android:layout_marginTop="24dp"
+        android:text="Cara Kerja"
         android:textColor="#000000"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:textSize="14sp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/abhaya_libre_regular"
+        app:layout_constraintTop_toBottomOf="@id/cvInfo"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintTop_toBottomOf="@id/tvCaraKerjaTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/cara_kerja_1"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Foto"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/abhaya_libre_regular" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/cara_kerja_2"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Analisis"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/abhaya_libre_regular" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/cara_kerja_3"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Hasil"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/abhaya_libre_regular" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

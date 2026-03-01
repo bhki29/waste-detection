@@ -1,4 +1,4 @@
-package com.example.wastedetection
+package com.example.wastedetection.WasteVolumeEstimation
 
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
+import com.example.wastedetection.R
 import java.io.InputStream
 
 class ResultActivity : AppCompatActivity() {

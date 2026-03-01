@@ -1,4 +1,4 @@
-package com.example.wastedetection
+package com.example.wastedetection.WasteVolumeEstimation
 
 import android.Manifest
 import android.content.Intent
@@ -17,8 +17,8 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.wastedetection.R
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale

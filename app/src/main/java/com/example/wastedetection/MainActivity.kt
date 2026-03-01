@@ -3,8 +3,9 @@ package com.example.wastedetection
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.wastedetection.WasteDetection.CameraActivity
+import com.example.wastedetection.WasteVolumeEstimation.VolumeCameraActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,8 +23,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Aksi Tombol 2: Placeholder (Karena kita belum buat fitur YOLO-nya)
-//        btnDetection.setOnClickListener {
-//            startActivity(Intent(this, DetectionActivity::class.java))
-//        }
+        btnDetection.setOnClickListener {
+            startActivity(Intent(this, CameraActivity::class.java))
+        }
     }
 }

@@ -33,6 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -50,6 +54,7 @@ dependencies {
     // 1. TENSORFLOW LITE (Otak AI)
     implementation(libs.tensorflow.lite)
     implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.metadata)
     implementation(libs.tensorflow.lite.gpu)
 
     // 2. CAMERAX (Kamera)
@@ -68,4 +73,6 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
 
     implementation(libs.androidx.exifinterface)
+
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }
