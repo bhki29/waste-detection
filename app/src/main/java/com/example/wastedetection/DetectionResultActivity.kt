@@ -1,5 +1,6 @@
 package com.example.wastedetection
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -9,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wastedetection.WasteDetection.ScanViewModel
+import com.google.android.material.button.MaterialButton
 import java.io.IOException
 
 class DetectionResultActivity : AppCompatActivity() {
@@ -27,73 +28,96 @@ class DetectionResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detection_result)
 
+        // 1. Hubungkan variabel dengan ID yang baru di XML
         val imgResult = findViewById<ImageView>(R.id.imgResult)
-        val tvStats = findViewById<TextView>(R.id.tvStats)
+        val tvOrganikCount = findViewById<TextView>(R.id.tvOrganikCount)
+        val tvAnorganikCount = findViewById<TextView>(R.id.tvAnorganikCount)
+        val tvTotalCount = findViewById<TextView>(R.id.tvTotalCount)
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
-        val btnBack = findViewById<Button>(R.id.btnScanAgain)
 
+        val btnBackResult = findViewById<ImageView>(R.id.btnBackResult)
+        val btnScanAgain = findViewById<MaterialButton>(R.id.btnScanAgain)
+        val btnHome = findViewById<MaterialButton>(R.id.btnHome)
+
+        // 2. Terima dan Proses Gambar
         val imageUriString = intent.getStringExtra("image_uri")
-
         if (imageUriString != null) {
             val uri = Uri.parse(imageUriString)
             try {
-                // 1. Ambil Gambar Resolusi Penuh
                 val bitmap = uriToBitmap(uri)
-
                 if (bitmap != null) {
-                    // Cek di Logcat nanti, ukurannya harus BESAR (> 1000px)
                     viewModel.processImage(bitmap)
                 } else {
                     Toast.makeText(this, "Gagal memuat gambar", Toast.LENGTH_SHORT).show()
                 }
-
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Observer (Sama seperti sebelumnya)
+        // 3. Observer: Menampilkan Hasil ke Layar
         viewModel.resultBitmap.observe(this) { resultImage ->
             imgResult.setImageBitmap(resultImage)
         }
 
-        viewModel.resultStats.observe(this) { stats ->
-            tvStats.text = stats
+        viewModel.organikCount.observe(this) { count ->
+            tvOrganikCount.text = "Organik: $count item"
+        }
+
+        viewModel.anorganikCount.observe(this) { count ->
+            tvAnorganikCount.text = "Anorganik: $count item"
+        }
+
+        viewModel.totalCount.observe(this) { count ->
+            tvTotalCount.text = "Total: $count objek"
         }
 
         viewModel.isLoading.observe(this) { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-            btnBack.isEnabled = !isLoading
+            btnScanAgain.isEnabled = !isLoading
+            btnHome.isEnabled = !isLoading
         }
 
-        btnBack.setOnClickListener {
+        // 4. Aksi Tombol-Tombol
+        // Tombol Back Kiri Atas (Tutup halaman ini, kembali ke kamera)
+        btnBackResult.setOnClickListener {
+            finish()
+        }
+
+        // Tombol Ulangi (Tutup halaman ini, kembali ke kamera)
+        btnScanAgain.setOnClickListener {
+            finish()
+        }
+
+        // Tombol Home (Tutup semua halaman kamera/hasil, paksa kembali ke MainActivity)
+        btnHome.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            // Trik agar MainActivity tidak ditumpuk, tapi halaman lain dibersihkan
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
             finish()
         }
     }
 
     // =========================================================================
-    // 🔧 FUNGSI BARU: MEMAKSA LOAD GAMBAR ASLI (HIGH RES)
+    // FUNGSI MEMAKSA LOAD GAMBAR ASLI (HIGH RES) - (TIDAK ADA YANG DIUBAH)
     // =========================================================================
     private fun uriToBitmap(uri: Uri): Bitmap? {
         return try {
             val contentResolver = contentResolver
             var bitmap: Bitmap? = null
 
-            // CARA 1: Untuk Android Versi Baru (Android P / API 28 ke atas)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 val source = ImageDecoder.createSource(contentResolver, uri)
                 bitmap = ImageDecoder.decodeBitmap(source) { decoder, _, _ ->
                     decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
-                    decoder.isMutableRequired = true // Agar bisa digambari kotak
+                    decoder.isMutableRequired = true
                 }
-            }
-            // CARA 2: Untuk Android Lama
-            else {
+            } else {
                 bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
             }
 
-            // CARA 3: Fallback (Cadangan jika cara diatas gagal)
             if (bitmap == null) {
                 val inputStream = contentResolver.openInputStream(uri)
                 bitmap = BitmapFactory.decodeStream(inputStream)
@@ -102,7 +126,6 @@ class DetectionResultActivity : AppCompatActivity() {
 
             if (bitmap == null) return null
 
-            // --- PROSES ROTASI (Agar Gambar Tegak) ---
             val matrix = Matrix()
             val projection = arrayOf(MediaStore.Images.ImageColumns.ORIENTATION)
             val cursor = contentResolver.query(uri, projection, null, null, null)
@@ -118,12 +141,9 @@ class DetectionResultActivity : AppCompatActivity() {
                 cursor.close()
             }
 
-            // Putar gambar & Pastikan Mutable (Bisa diedit)
             val rotatedBitmap = Bitmap.createBitmap(
                 bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true
             )
-
-            // Trik pamungkas: Copy ke format ARGB_8888 agar pasti bisa digambari Canvas
             return rotatedBitmap.copy(Bitmap.Config.ARGB_8888, true)
 
         } catch (e: IOException) {

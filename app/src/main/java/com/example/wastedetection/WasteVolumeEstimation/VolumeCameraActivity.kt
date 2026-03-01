@@ -1,139 +1,169 @@
 package com.example.wastedetection.WasteVolumeEstimation
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageButton
+import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
-import androidx.core.content.ContextCompat
+import androidx.cardview.widget.CardView
+import androidx.core.content.FileProvider
 import com.example.wastedetection.R
+import com.google.android.material.button.MaterialButton
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Locale
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class VolumeCameraActivity : AppCompatActivity() {
 
-    private lateinit var viewFinder: PreviewView
-    private var imageCapture: ImageCapture? = null
-    private lateinit var cameraExecutor: ExecutorService
+    // --- Referensi Elemen UI (Wajah 1 & Wajah 2) ---
+    private lateinit var llPlaceholderState: LinearLayout
+    private lateinit var cvPreviewState: CardView
+    private lateinit var ivPreview: ImageView
+    private lateinit var llActionPick: LinearLayout
+    private lateinit var llActionConfirm: LinearLayout
 
-    // Launcher untuk Izin Kamera
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) { startCamera() }
-            else { Toast.makeText(this, "Izin kamera ditolak", Toast.LENGTH_SHORT).show() }
+    // Variabel untuk menyimpan lokasi (URI) gambar sementara
+    private var currentImageUri: Uri? = null
+
+    // ==========================================
+    // LAUNCHER: MENANGKAP HASIL DARI KAMERA/GALERI
+    // ==========================================
+
+    // 1. Launcher Kamera
+    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+        val uriAman = currentImageUri
+
+        if (success && uriAman != null) {
+            // Jika berhasil difoto, ubah tampilan ke Wajah 2 (Preview)
+            showPreviewState(uriAman)
+        } else {
+            Toast.makeText(this, "Dibatalkan atau gagal mengambil foto", Toast.LENGTH_SHORT).show()
+            currentImageUri = null
         }
+    }
 
-    // Launcher untuk Galeri (Photo Picker Baru)
-    private val pickGalleryLauncher =
-        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            if (uri != null) {
-                moveToResult(uri)
-            } else {
-                Log.d("PhotoPicker", "No media selected")
-            }
+    // 2. Launcher Galeri
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri != null) {
+            // Jika gambar dipilih dari galeri, simpan URI dan ubah ke Wajah 2
+            currentImageUri = uri
+            showPreviewState(uri)
         }
+    }
 
+    // ==========================================
+    // FUNGSI UTAMA (ON CREATE)
+    // ==========================================
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_volume_camera)
 
-        viewFinder = findViewById(R.id.viewFinder)
-        val btnShutter = findViewById<ImageButton>(R.id.btnShutter)
-        val btnGallery = findViewById<ImageButton>(R.id.btnGallery)
+        // Hubungkan variabel dengan ID di XML
+        llPlaceholderState = findViewById(R.id.llPlaceholderState)
+        cvPreviewState = findViewById(R.id.cvPreviewState)
+        ivPreview = findViewById(R.id.ivPreview)
+        llActionPick = findViewById(R.id.llActionPick)
+        llActionConfirm = findViewById(R.id.llActionConfirm)
 
-        // Cek Izin Kamera
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            startCamera()
-        } else {
-            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        val btnKamera = findViewById<MaterialButton>(R.id.btnKamera)
+        val btnGaleri = findViewById<MaterialButton>(R.id.btnGaleri)
+        val btnKlasifikasi = findViewById<MaterialButton>(R.id.btnKlasifikasi)
+        val btnGantiGambar = findViewById<MaterialButton>(R.id.btnGantiGambar)
+        val btnBackHeader = findViewById<ImageView>(R.id.btnBackHeader)
+
+        // 1. Tombol Kembali di Pojok Kiri Atas
+        btnBackHeader.setOnClickListener {
+            finish() // Menutup halaman dan kembali ke Home
         }
 
-        // Setup Tombol
-        btnShutter.setOnClickListener { takePhoto() }
-        btnGallery.setOnClickListener {
-            // Buka Galeri (Hanya gambar)
-            pickGalleryLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        // 2. Tombol Kamera (Wajah 1)
+        btnKamera.setOnClickListener {
+            openCamera()
         }
 
-        cameraExecutor = Executors.newSingleThreadExecutor()
-    }
+        // 3. Tombol Galeri (Wajah 1)
+        btnGaleri.setOnClickListener {
+            galleryLauncher.launch("image/*") // Membuka file explorer khusus gambar
+        }
 
-    private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+        // 4. Tombol Ganti Gambar (Wajah 2)
+        btnGantiGambar.setOnClickListener {
+            showPlaceholderState() // Mengembalikan tampilan ke Wajah 1
+        }
 
-        cameraProviderFuture.addListener({
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+        // 5. Tombol Klasifikasi Sekarang (Wajah 2)
+        btnKlasifikasi.setOnClickListener {
+            val uriAman = currentImageUri
 
-            // Preview (Tampilan Layar)
-            val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(viewFinder.surfaceProvider)
+            if (uriAman != null) {
+                // Pindah ke Halaman Hasil Estimasi dan bawa data URI Gambar-nya
+                val intent = Intent(this, ResultActivity::class.java)
+                intent.putExtra("image_uri", uriAman.toString())
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Terjadi kesalahan, gambar tidak ditemukan", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
 
-            // ImageCapture (Fungsi Foto)
-            imageCapture = ImageCapture.Builder().build()
+    // ==========================================
+    // FUNGSI PENDUKUNG
+    // ==========================================
 
-            // Pilih Kamera Belakang
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+    // Membuka Kamera dan menyimpan di ruang rahasia (Cache) tanpa perlu izin
+    private fun openCamera() {
+        try {
+            // 1. Buat file sementara di folder cache aplikasi
+            val photoFile = File(cacheDir, "foto_estimasi_${System.currentTimeMillis()}.jpg")
 
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
-            } catch (exc: Exception) {
-                Log.e("CameraX", "Gagal memuat kamera", exc)
+            // 2. Dapatkan URI aman menggunakan FileProvider
+            currentImageUri = FileProvider.getUriForFile(
+                this,
+                "${applicationContext.packageName}.fileprovider",
+                photoFile
+            )
+
+            val uriAman = currentImageUri
+
+            if (uriAman != null) {
+                // 3. Buka kamera
+                cameraLauncher.launch(uriAman)
+            } else {
+                Toast.makeText(this, "Gagal menyiapkan URI kamera", Toast.LENGTH_SHORT).show()
             }
-        }, ContextCompat.getMainExecutor(this))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error Kamera: ${e.message}", Toast.LENGTH_LONG).show()
+        }
     }
 
-    private fun takePhoto() {
-        val imageCapture = imageCapture ?: return
+    // --- MANAJEMEN TAMPILAN WAJAH 1 & WAJAH 2 ---
 
-        // Buat file sementara untuk menyimpan foto
-        val photoFile = File(
-            externalCacheDir,
-            SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US).format(System.currentTimeMillis()) + ".jpg"
-        )
+    // Menampilkan Wajah 1 (Kondisi Awal / Ganti Gambar)
+    private fun showPlaceholderState() {
+        currentImageUri = null // Hapus memori gambar lama
 
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+        // Munculkan Placeholder & Tombol Pilih
+        llPlaceholderState.visibility = View.VISIBLE
+        llActionPick.visibility = View.VISIBLE
 
-        imageCapture.takePicture(
-            outputOptions,
-            ContextCompat.getMainExecutor(this),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val savedUri = Uri.fromFile(photoFile)
-                    moveToResult(savedUri)
-                }
-
-                override fun onError(exc: ImageCaptureException) {
-                    Log.e("CameraX", "Gagal ambil foto: ${exc.message}", exc)
-                }
-            }
-        )
+        // Sembunyikan Preview & Tombol Konfirmasi
+        cvPreviewState.visibility = View.GONE
+        llActionConfirm.visibility = View.GONE
     }
 
-    private fun moveToResult(uri: Uri) {
-        val intent = Intent(this, ResultActivity::class.java)
-        intent.putExtra("image_uri", uri.toString())
-        startActivity(intent)
-    }
+    // Menampilkan Wajah 2 (Kondisi Preview Foto)
+    private fun showPreviewState(uri: Uri) {
+        ivPreview.setImageURI(uri) // Pasang gambar ke layar
 
-    override fun onDestroy() {
-        super.onDestroy()
-        cameraExecutor.shutdown()
+        // Sembunyikan Placeholder & Tombol Pilih
+        llPlaceholderState.visibility = View.GONE
+        llActionPick.visibility = View.GONE
+
+        // Munculkan Preview & Tombol Konfirmasi
+        cvPreviewState.visibility = View.VISIBLE
+        llActionConfirm.visibility = View.VISIBLE
     }
 }
