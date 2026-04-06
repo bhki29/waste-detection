@@ -12,7 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import coil.load
-import com.example.wastedetection.MainActivity
+import com.example.wastedetection.ui.dashboard.MainActivity
 import com.example.wastedetection.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -87,11 +87,21 @@ class ResultActivity : AppCompatActivity() {
             val containerVolumeLiter = inputString.toDoubleOrNull()
 
             if (containerVolumeLiter != null) {
-                // RUMUS: (Persentase / 100) * Liter * 1000 = mL / CM3
-                val volumeInMl = (detectedPercentage.toDouble() / 100.0) * containerVolumeLiter * 1000.0
+                // RUMUS(convert ke ML) : (Persentase / 100) * Liter * 1000 = mL / CM3
+                // val volumeInMl = (detectedPercentage.toDouble() / 100.0) * containerVolumeLiter * 1000.0
+
+                // RUMUS : (Persentase / 100) * Liter = L
+                val volumeInMl = (detectedPercentage.toDouble() / 100.0) * containerVolumeLiter
+
+                // Format menjadi 2 angka di belakang koma
+                val formattedVolume = "%.2f".format(volumeInMl)
 
                 // Tampilkan Hasil Akhir di dalam Kotak Hijau
-                tvFinalVolume.text = "${volumeInMl.toInt()} CM"
+                tvFinalVolume.text = "$formattedVolume Liter"
+
+
+                // Tampilkan Hasil Akhir di dalam Kotak Hijau
+                // tvFinalVolume.text = "$volumeInMl Liter"
                 layoutFinalResult.visibility = View.VISIBLE // Munculkan kotak hasil
             } else {
                 Toast.makeText(this, "Input angka tidak valid", Toast.LENGTH_SHORT).show()

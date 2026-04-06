@@ -1,4 +1,4 @@
-package com.example.wastedetection
+package com.example.wastedetection.WasteDetection
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -16,7 +16,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.wastedetection.WasteDetection.ScanViewModel
+import com.example.wastedetection.ui.dashboard.MainActivity
+import com.example.wastedetection.R
 import com.google.android.material.button.MaterialButton
 import java.io.IOException
 

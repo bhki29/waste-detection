@@ -1,243 +1,317 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0FEE8"
-    android:padding="24dp">
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/logo"
-        android:scaleType="fitCenter"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/llHeader"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginStart="12dp"
-        app:layout_constraintTop_toTopOf="@id/ivLogo"
-        app:layout_constraintBottom_toBottomOf="@id/ivLogo"
-        app:layout_constraintStart_toEndOf="@id/ivLogo"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="GreenScan AI"
-            android:textColor="#2D7A41"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/abhaya_libre_regular" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Deteksi Volume dan Jenis Sampah"
-            android:textColor="#2D7A41"
-            android:textSize="14sp"
-            android:fontFamily="@font/abhaya_libre_regular" />
-
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvInfo"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:cardBackgroundColor="#6A9D4E"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
-        app:layout_constraintTop_toBottomOf="@id/llHeader"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/logo"
+            android:scaleType="fitCenter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/llHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp"
+            app:layout_constraintTop_toTopOf="@id/ivLogo"
+            app:layout_constraintBottom_toBottomOf="@id/ivLogo"
+            app:layout_constraintStart_toEndOf="@id/ivLogo"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GreenScan AI"
+                android:textColor="#2D7A41"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/abhaya_libre_regular" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deteksi Volume dan Jenis Sampah"
+                android:textColor="#2D7A41"
+                android:textSize="14sp"
+                android:fontFamily="@font/abhaya_libre_regular" />
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardBackgroundColor="#6A9D4E"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toBottomOf="@id/llHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/faq" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="Apa itu GreenScan AI?"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/abhaya_libre_regular" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="GreenScan AI merupakan aplikasi Android berbasis Artificial Intelligence yang mengintegrasikan model Convolutional Neural Network (CNN) untuk estimasi volume sampah dan algoritma YOLO untuk deteksi jenis sampah melalui kamera perangkat mobile."
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="4dp"
+                    android:justificationMode="inter_word"
+                    android:fontFamily="@font/abhaya_libre_regular" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvCaraKerjaTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Cara Kerja Aplikasi"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/abhaya_libre_regular"
+            app:layout_constraintTop_toBottomOf="@id/cvInfo"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvCaraKerja"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:layout_constraintTop_toBottomOf="@id/tvCaraKerjaTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="12dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/photo_baru"
+                        android:scaleType="fitCenter" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Foto"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/abhaya_libre_regular" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ambil Gambar Sampah"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/abhaya_libre_regular" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/right_arrow" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/analysis_baru"
+                        android:scaleType="fitCenter" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Analisis"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/abhaya_libre_regular" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Diproses Oleh Model"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/abhaya_libre_regular" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/right_arrow" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/result_baru"
+                        android:scaleType="fitCenter" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Hasil"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/abhaya_libre_regular" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tampilkan Prediksi"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/abhaya_libre_regular" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvMulaiFitur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Mulai Gunakan Fitur"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/abhaya_libre_regular"
+            app:layout_constraintTop_toBottomOf="@id/cvCaraKerja"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintTop_toBottomOf="@id/tvMulaiFitur"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/faq" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="@string/faq"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/abhaya_libre_regular" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/text_card"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVolumeEstimation"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:text="Estimasi Volume Sampah"
                 android:textColor="#FFFFFF"
-                android:textSize="13sp"
-                android:lineSpacingExtra="4dp"
-                android:justificationMode="inter_word"
-                android:fontFamily="@font/abhaya_libre_regular" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:weightSum="2">
-
-                <Button
-                    android:id="@+id/btnVolumeEstimation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="6dp"
-                    android:text="@string/btn_volume_estimation"
-                    android:textColor="#6A9D4E"
-                    android:textSize="11sp"
-                    android:textStyle="bold"
-                    android:backgroundTint="#FFFFFF"
-                    android:textAllCaps="false"
-                    app:cornerRadius="20dp"
-                    android:fontFamily="@font/abhaya_libre_regular"
-                    android:paddingVertical="12dp"/>
-
-                <Button
-                    android:id="@+id/btnWasteDetection"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="6dp"
-                    android:text="@string/btn_waste_detection"
-                    android:textColor="#6A9D4E"
-                    android:textSize="11sp"
-                    android:textStyle="bold"
-                    android:backgroundTint="#FFFFFF"
-                    android:textAllCaps="false"
-                    app:cornerRadius="20dp"
-                    android:fontFamily="@font/abhaya_libre_regular"
-                    android:paddingVertical="12dp"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/tvCaraKerjaTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Cara Kerja"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:fontFamily="@font/abhaya_libre_regular"
-        app:layout_constraintTop_toBottomOf="@id/cvInfo"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:weightSum="3"
-        app:layout_constraintTop_toBottomOf="@id/tvCaraKerjaTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/cara_kerja_1"
-                android:scaleType="fitCenter" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Foto"
-                android:textColor="#000000"
-                android:textSize="18sp"
+                android:textSize="11sp"
                 android:textStyle="bold"
+                android:backgroundTint="#6A9D4E"
+                android:textAllCaps="false"
+                app:cornerRadius="20dp"
                 android:fontFamily="@font/abhaya_libre_regular" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/cara_kerja_2"
-                android:scaleType="fitCenter" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Analisis"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnWasteDetection"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:text="Prediksi Jenis Sampah"
                 android:textColor="#000000"
-                android:textSize="18sp"
+                android:textSize="11sp"
                 android:textStyle="bold"
+                android:backgroundTint="#FFFFFF"
+                app:strokeColor="#6A9D4E"
+                app:strokeWidth="1dp"
+                android:textAllCaps="false"
+                app:cornerRadius="20dp"
                 android:fontFamily="@font/abhaya_libre_regular" />
+
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toBottomOf="@id/tvMulaiFitur" />
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/cara_kerja_3"
-                android:scaleType="fitCenter" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Hasil"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/abhaya_libre_regular" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WasteDetection</string>
+    <string name="app_name">GreenScan AI</string>
 
     <string name="title_menu_1">Selamat Datang DI GreenScan AI</string>
     <string name="title_menu_2">Estimasi Volume Sampah Berbasis CNN</string>
@@ -11,4 +11,6 @@
     <string name="text_card">GreenScan AI merupakan aplikasi Android berbasis Artificial Intelligence yang mengintegrasikan model Convolutional Neural Network (CNN) untuk estimasi volume sampah dan algoritma YOLO untuk deteksi jenis sampah melalui kamera perangkat mobile.</string>
     <string name="btn_volume_estimation">Estimasi Volume Sampah</string>
     <string name="btn_waste_detection">Prediksi Jenis Sampah</string>
+    <string name="from">from\n</string>
+    <string name="aji">Aji Ahmad Baehaki</string>
 </resources>

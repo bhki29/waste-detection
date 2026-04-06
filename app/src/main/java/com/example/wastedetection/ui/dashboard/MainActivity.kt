@@ -1,9 +1,10 @@
-package com.example.wastedetection
+package com.example.wastedetection.ui.dashboard
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.example.wastedetection.R
 import com.example.wastedetection.WasteDetection.CameraActivity
 import com.example.wastedetection.WasteVolumeEstimation.VolumeCameraActivity
 
