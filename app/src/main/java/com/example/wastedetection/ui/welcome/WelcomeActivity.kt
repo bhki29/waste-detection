@@ -4,7 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.wastedetection.ui.dashboard.MainActivity
+import com.example.wastedetection.MainActivity
+import com.example.wastedetection.R
 import com.example.wastedetection.databinding.ActivityWelcomeBinding
 
 class WelcomeActivity : AppCompatActivity() {

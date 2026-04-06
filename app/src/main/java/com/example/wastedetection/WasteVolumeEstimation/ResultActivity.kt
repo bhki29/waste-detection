@@ -12,7 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import coil.load
-import com.example.wastedetection.ui.dashboard.MainActivity
+import com.example.wastedetection.MainActivity
 import com.example.wastedetection.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText

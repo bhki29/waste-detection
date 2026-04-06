@@ -32,13 +32,13 @@
             android:name=".ui.welcome.WelcomeActivity"
             android:exported="false"/>
         <activity
-            android:name=".WasteDetection.DetectionResultActivity"
+            android:name=".DetectionResultActivity"
             android:exported="false" />
         <activity
             android:name=".WasteDetection.CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.dashboard.MainActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".WasteVolumeEstimation.ResultActivity"

@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:padding="24dp"
-    tools:context=".WasteDetection.DetectionResultActivity">
+    tools:context=".DetectionResultActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvHeaderResult"
