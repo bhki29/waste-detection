@@ -98,6 +98,7 @@
             app:strokeColor="#6A9D4E"
             app:strokeWidth="2dp"
             app:cornerRadius="16dp" />
+
     </LinearLayout>
 
     <ScrollView
@@ -201,39 +202,92 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
+                android:visibility="gone"
                 app:cardBackgroundColor="#C5E1A5"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                android:visibility="gone">
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:gravity="center"
+                    android:orientation="vertical"
                     android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/abhaya_libre_regular"
                         android:text="Hasil Estimasi volume sampah mencapai :"
                         android:textColor="#000000"
-                        android:textSize="12sp"
-                        android:fontFamily="@font/abhaya_libre_regular" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tvFinalVolume"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:fontFamily="@font/abhaya_libre_regular"
                         android:text="0 CM"
                         android:textColor="#000000"
                         android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:fontFamily="@font/abhaya_libre_regular" />
+                        android:textStyle="bold" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/layoutFeedbackPrompt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:fontFamily="@font/abhaya_libre_regular"
+                    android:text="Apakah hasil estimasi volume ini sudah benar?"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnFeedbackBenar"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/abhaya_libre_regular"
+                        android:text="Benar"
+                        android:textColor="#6A9D4E"
+                        android:textStyle="bold"
+                        app:cornerRadius="12dp"
+                        app:strokeColor="#6A9D4E" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnFeedbackTidak"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/abhaya_libre_regular"
+                        android:text="Tidak"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        app:backgroundTint="#D32F2F"
+                        app:cornerRadius="12dp" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

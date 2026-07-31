@@ -51,13 +51,13 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
 
-    // 1. TENSORFLOW LITE (Otak AI)
+    // TENSORFLOW LITE (Otak AI)
     implementation(libs.tensorflow.lite)
     implementation(libs.tensorflow.lite.support)
     implementation(libs.tensorflow.lite.metadata)
     implementation(libs.tensorflow.lite.gpu)
 
-    // 2. CAMERAX (Kamera)
+    // CAMERAX (Kamera)
     val cameraxVersion = "1.3.1"
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.camera.camera2)
@@ -75,4 +75,6 @@ dependencies {
     implementation(libs.androidx.exifinterface)
 
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
 }

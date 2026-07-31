@@ -68,6 +68,8 @@ class ScanViewModel(application: Application) : AndroidViewModel(application) {
                     alpha = 160
                 }
 
+                val classifier = WasteClassifier()
+
                 var countOrganik = 0
                 var countAnorganik = 0
 
@@ -93,7 +95,7 @@ class ScanViewModel(application: Application) : AndroidViewModel(application) {
                         }
                     }
 
-                    if (result.label.contains("Organik", ignoreCase = true) && !result.label.contains("An")) {
+                    if (classifier.isOrganik(result.label)) {
                         boxPaint.color = Color.GREEN
                         countOrganik++
                     } else {

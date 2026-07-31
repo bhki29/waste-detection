@@ -11,12 +11,14 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wastedetection.WasteDetection.ScanViewModel
+import com.example.wastedetection.ui.FeedbackBottomSheet
 import com.google.android.material.button.MaterialButton
 import java.io.IOException
 
@@ -28,7 +30,7 @@ class DetectionResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detection_result)
 
-        // 1. Hubungkan variabel dengan ID yang baru di XML
+        // 1. Hubungkan variabel
         val imgResult = findViewById<ImageView>(R.id.imgResult)
         val tvOrganikCount = findViewById<TextView>(R.id.tvOrganikCount)
         val tvAnorganikCount = findViewById<TextView>(R.id.tvAnorganikCount)
@@ -38,6 +40,12 @@ class DetectionResultActivity : AppCompatActivity() {
         val btnBackResult = findViewById<ImageView>(R.id.btnBackResult)
         val btnScanAgain = findViewById<MaterialButton>(R.id.btnScanAgain)
         val btnHome = findViewById<MaterialButton>(R.id.btnHome)
+
+        // INISIALISASI KOMPONEN FEEDBACK BARU
+        val layoutFeedbackPrompt = findViewById<LinearLayout>(R.id.layoutFeedbackPrompt)
+        val btnFeedbackBenar = findViewById<MaterialButton>(R.id.btnFeedbackBenar)
+        val btnFeedbackTidak = findViewById<MaterialButton>(R.id.btnFeedbackTidak)
+
 
         // 2. Terima dan Proses Gambar
         val imageUriString = intent.getStringExtra("image_uri")
@@ -77,26 +85,81 @@ class DetectionResultActivity : AppCompatActivity() {
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             btnScanAgain.isEnabled = !isLoading
             btnHome.isEnabled = !isLoading
+
+            // MUNCULKAN KOTAK PERTANYAAN SETELAH LOADING SELESAI
+            layoutFeedbackPrompt.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
 
-        // 4. Aksi Tombol-Tombol
-        // Tombol Back Kiri Atas (Tutup halaman ini, kembali ke kamera)
-        btnBackResult.setOnClickListener {
-            finish()
-        }
-
-        // Tombol Ulangi (Tutup halaman ini, kembali ke kamera)
-        btnScanAgain.setOnClickListener {
-            finish()
-        }
-
-        // Tombol Home (Tutup semua halaman kamera/hasil, paksa kembali ke MainActivity)
+        // 4. Aksi Tombol-Tombol Navigasi
+        btnBackResult.setOnClickListener { finish() }
+        btnScanAgain.setOnClickListener { finish() }
         btnHome.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            // Trik agar MainActivity tidak ditumpuk, tapi halaman lain dibersihkan
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
             finish()
+        }
+
+        // ==========================================
+        // LOGIKA TOMBOL BENAR (Tutup & Selesai)
+        // ==========================================
+        btnFeedbackBenar.setOnClickListener {
+            layoutFeedbackPrompt.visibility = View.GONE
+            Toast.makeText(this, "Terima kasih atas konfirmasinya!", Toast.LENGTH_SHORT).show()
+        }
+
+        // ==========================================
+        // LOGIKA TOMBOL TIDAK (Auto-Capture & Kirim)
+        // ==========================================
+        btnFeedbackTidak.setOnClickListener {
+            // Ambil gambar hasil deteksi YOLO secara otomatis dari layar
+            val imageUri = getUriFromImageView(imgResult)
+
+            if (imageUri != null) {
+                // Panggil Modal BottomSheet dengan identitas YOLO
+                val modal = FeedbackBottomSheet.newInstance("Deteksi Jenis Sampah YOLO", imageUri.toString())
+                modal.show(supportFragmentManager, "FeedbackModal")
+            } else {
+                Toast.makeText(this, "Gagal mengekstrak gambar.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // ==========================================
+    // MESIN AUTO-CAPTURE GAMBAR (DI BALIK LAYAR)
+    // ==========================================
+    private fun getUriFromImageView(imageView: ImageView): Uri? {
+        val drawable = imageView.drawable ?: return null
+
+        val bitmap = if (drawable is android.graphics.drawable.BitmapDrawable) {
+            drawable.bitmap
+        } else {
+            val bmp = android.graphics.Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                android.graphics.Bitmap.Config.ARGB_8888
+            )
+            val canvas = android.graphics.Canvas(bmp)
+            drawable.setBounds(0, 0, canvas.width, canvas.height)
+            drawable.draw(canvas)
+            bmp
+        }
+
+        return try {
+            val file = java.io.File(cacheDir, "auto_capture_yolo_${System.currentTimeMillis()}.jpg")
+            val stream = java.io.FileOutputStream(file)
+            bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 100, stream)
+            stream.flush()
+            stream.close()
+
+            androidx.core.content.FileProvider.getUriForFile(
+                this,
+                "${packageName}.fileprovider",
+                file
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
     }
 
